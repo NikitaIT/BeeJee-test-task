@@ -24,7 +24,7 @@
 	<!-- iOS Safari -->
 	<meta name="apple-mobile-web-app-status-bar-style" content="#000">
 
-	<style>body { opacity: 0; overflow-x: hidden; } html { background-color: #fff; }</style>
+	<style>body { opacity: 1; overflow-x: hidden; } html { background-color: #fff; }</style>
 
 </head>
 
@@ -36,11 +36,11 @@
     session_start();
     // Подключение файлов системы
     define('ROOT', dirname(__FILE__).'\\..\\core');
-    echo "dede 4". ROOT;
+    define('MY_SERVER', '\\testtask\\app');
     $bc = new testtask\core\App();
     ?>
-	<link rel="stylesheet" href="css/main.min.css">
-	<script src="js/scripts.min.js"></script>
+	<link rel="stylesheet" href="<?=MY_SERVER?>/css/main.min.css">
+	<script src="<?=MY_SERVER?>/js/scripts.min.js"></script>
 
 </body>
 </html>

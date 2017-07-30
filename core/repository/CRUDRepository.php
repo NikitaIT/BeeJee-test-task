@@ -110,6 +110,6 @@ abstract class CRUDRepository extends DataMapper
             'SELECT COUNT(*) FROM '. $this->table
         );
         $st->execute();
-        return $st->fetch()['count'];
+        return $st->fetch()[0];
     }
 }

@@ -23,24 +23,31 @@ class Task
     /**
      * @var string имя пользователя
      */
-    private $username;
+    private $username = "";
     /**
      * @var string е-mail пользователя
      */
-    private $email;
+    private $email = "";
     /**
      * @var string  текст задачи
      */
-    private $text;
+    private $text = "";
     /**
      * @var object изображение задачи
      */
-    private $image;
+    private $image = "";
     /**
      * @var object изображение задачи
      */
-    private $isDone;
-
+    private $isDone = false;
+    public function __construct()
+    {
+        $a = func_get_args();
+        $i = func_num_args();
+        if (method_exists($this,$f='__construct'.$i)) {
+            call_user_func_array(array($this,$f),$a);
+        }
+    }
     /**
      * Task constructor.
      * @param $id
@@ -50,7 +57,7 @@ class Task
      * @param object $image
      * @param $isDone
      */
-    public function __construct($id,$username, $email, $text, $image,$isDone)
+    public function __construct6($id,$username, $email, $text, $image,$isDone)
     {
         $this->isDone = $isDone;
         $this->id = $id;
@@ -59,6 +66,7 @@ class Task
         $this->text = $text;
         $this->image = $image;
     }
+
 
     /**
      * @return mixed
@@ -74,6 +82,7 @@ class Task
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -90,6 +99,7 @@ class Task
     public function setUsername($username)
     {
         $this->username = $username;
+        return $this;
     }
 
     /**
@@ -106,6 +116,7 @@ class Task
     public function setEmail($email)
     {
         $this->email = $email;
+        return $this;
     }
 
     /**
@@ -122,6 +133,7 @@ class Task
     public function setText($text)
     {
         $this->text = $text;
+        return $this;
     }
 
     /**
@@ -138,6 +150,7 @@ class Task
     public function setImage($image)
     {
         $this->image = $image;
+        return $this;
     }
     /**
      * @return object
@@ -153,6 +166,7 @@ class Task
     public function setIsDone($isDone)
     {
         $this->isDone = $isDone;
+        return $this;
     }
 
     /**
@@ -197,5 +211,27 @@ class Task
     public static function getIsDoneDBName()
     {
         return "is_done";
+    }
+
+    /**
+     * Возвращает путь к изображению
+     * @return string <p>Путь к изображению</p>
+     */
+    public function getImagePath()
+    {
+        // Название изображения-пустышки
+        $noImage = 'no-image.jpg';
+        // Путь к папке с task img
+        $path = '/upload/images/task/';
+        // Путь к изображению товара
+        $pathToProductImage = $path . $this->id .".". $this->image;
+
+        if (file_exists(ROOT."\\..".$pathToProductImage)) {
+            // Если изображение для товара существует
+            // Возвращаем путь изображения товара
+            return MY_SERVER . '/..' .$pathToProductImage;
+        }
+        // Возвращаем путь изображения-пустышки
+        return MY_SERVER . '/..' . $path . $noImage;
     }
 }

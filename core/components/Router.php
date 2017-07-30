@@ -56,9 +56,19 @@ class Router
             if (preg_match("~$uriPattern~", $uri)) {
                 // Получаем внутренний путь из внешнего согласно правилу.
                 $internalRoute = preg_replace("~$uriPattern~", $path, $uri);
+                echo "<br>";
+                print_r($path);
+                echo "<br>";
+                echo "<br>";
+                print_r($internalRoute);
+                echo "<br>";
                 // Определить контроллер, action, параметры
                 $segments = explode('/', $internalRoute);
-                $controllerName = array_shift($segments) . 'Controller';
+                if ($uri != ""){
+                    array_shift($segments);
+                }
+                $controllerName = array_shift($segments) . "Controller";
+
                 $controllerName = ucfirst($controllerName);
                 $actionName = 'action' . ucfirst(array_shift($segments));
                 $parameters = $segments;
@@ -72,13 +82,13 @@ class Router
                 // Создать объект, вызвать метод (т.е. action)
                 $controllerName = "testtask\\core\\controller\\".$controllerName;
                 $controllerObject = new $controllerName;
-                echo "_controllerObject_";
-                print_r($controllerObject);
-                echo "_actionName_";
-                print_r($actionName);
-                echo "_parameters_";
-                print_r($parameters);
-                echo "__";
+//                echo "_controllerObject_";
+//                print_r($controllerObject);
+//                echo "_actionName_";
+//                print_r($actionName);
+//                echo "_parameters_";
+//                print_r($parameters);
+//                echo "__";
                 /* Вызываем необходимый метод ($actionName) у определенного
                  * класса ($controllerObject) с заданными ($parameters) параметрами
                  */

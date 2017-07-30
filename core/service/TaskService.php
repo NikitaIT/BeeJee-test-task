@@ -15,7 +15,7 @@ interface TaskService
 {
     public function findAll();
     public function findById($id);
-    public function findLatestTasks($count);
+    public function findLatestTasksByPageAndLimitOrderByOrd($ord,$page,$limit);
     public function deleteAll();
     public function update(Task $task);
     public function create(Task $task);

@@ -56,8 +56,8 @@ class TaskServiceImpl implements TaskService
         return $this->taskRepository->count();
     }
 
-    public function findLatestTasks($count = self::SHOW_BY_DEFAULT)
+    public function findLatestTasksByPageAndLimitOrderByOrd($ord, $page, $limit = self::SHOW_BY_DEFAULT)
     {
-        return $this->taskRepository->findLatestTasks($count);
+        return $this->taskRepository->findLatestTasksByPageAndLimitOrderByOrd($ord, $page, $limit);
     }
 }

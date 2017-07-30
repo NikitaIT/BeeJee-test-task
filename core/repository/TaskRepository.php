@@ -20,18 +20,25 @@ class TaskRepository extends CRUDRepository
 //    public function deleteAll();
     /**
      * Возвращает массив последних тaсков
-     * @param type $count [optional] <p>Количество</p>
-     * @param type $page [optional] <p>Номер текущей страницы</p>
+     * @param $ord
+     * @param int|type $page [optional] <p>Номер текущей страницы</p>
+     * @param $limit
      * @return array <p>Массив с товарами</p>
+     * @internal param type $count [optional] <p>Количество</p>
      */
-    public function findLatestTasks($count)
+    public function findLatestTasksByPageAndLimitOrderByOrd($ord, $page = 1, $limit)
     {
+        // Смещение (для запроса)
+        $offset = ($page - 1) * $limit;
+
         // Используется подготовленный запрос
         $st = static::$db->prepare(
-            'SELECT (*) FROM '. Task::getTaskDBName().
-            ' ORDER BY '.Task::getIdDBName().' DESC '.
-            'LIMIT :count');
-        $st->bindParam(':count', $count, MyPDO::PARAM_INT);
+            'SELECT * FROM '. Task::getTaskDBName().
+            ' ORDER BY :ord ASC LIMIT :limit OFFSET :offset');
+        $st->bindParam(':ord', $ord, MyPDO::PARAM_STR);
+        $st->bindParam(':limit', $limit, MyPDO::PARAM_INT);
+        $st->bindParam(':offset', $offset, MyPDO::PARAM_INT);
+
         // Указываем, что хотим получить данные в виде массива
         $st->setFetchMode(MyPDO::FETCH_ASSOC);
         $st->execute();
@@ -90,22 +97,39 @@ class TaskRepository extends CRUDRepository
      */
     public function create(Task $task)
     {
+//        echo 'insert into '.$task::getTaskDBName() .
+//            ' set '
+//            .$task::getIdDBName().' = :'.$task::getIdDBName().
+//            .$task::getUsernameDBName().' = :'.$task::getUsernameDBName().
+//            ', '.$task::getEmailDBName().' = :'.$task::getEmailDBName().
+//            ', '.$task::getTextDBName().' = :'.$task::getTextDBName().
+//            ', '.$task::getIsDoneDBName().' = :'.$task::getIsDoneDBName().
+//            ', '.$task::getImageDBName().' = :'.$task::getImageDBName();
+//        echo "<br>";
+//
+//        print_r(array(
+//            ':'.Task::getIdDBName() => 3,
+//            ':'.Task::getUsernameDBName() => $task->getUsername(),
+//            ':'.Task::getEmailDBName() => $task->getEmail(),
+//            ':'.Task::getTextDBName() => $task->getText(),
+//            ':'.Task::getIsDoneDBName() => $task->getIsDone(),
+//            ':'.Task::getImageDBName() => $task->getImage()
+//        ));
         $st = static::$db->prepare(
             'insert into '.$task::getTaskDBName() .
-            ' set '.$task::getIdDBName().' = :'.$task::getIdDBName().
-            ', '.$task::getUsernameDBName().' = :'.$task::getUsernameDBName().
+            ' set '
+            .$task::getUsernameDBName().' = :'.$task::getUsernameDBName().
             ', '.$task::getEmailDBName().' = :'.$task::getEmailDBName().
             ', '.$task::getTextDBName().' = :'.$task::getTextDBName().
             ', '.$task::getIsDoneDBName().' = :'.$task::getIsDoneDBName().
             ', '.$task::getImageDBName().' = :'.$task::getImageDBName()
         );
         if ($st->execute(array(
-            ':'.Task::getIdDBName() => $task->getId(),
             ':'.Task::getUsernameDBName() => $task->getUsername(),
             ':'.Task::getEmailDBName() => $task->getEmail(),
             ':'.Task::getTextDBName() => $task->getText(),
             ':'.Task::getIsDoneDBName() => $task->getIsDone(),
-            ':'.Task::getImageDBName() => $task->getImage()
+            ':'.Task::getImageDBName() =>  $task->getImage()
         ))) {
             // Если запрос выполенен успешно, возвращаем id добавленной записи
             return static::$db->lastInsertId();

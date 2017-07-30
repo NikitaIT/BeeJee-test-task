@@ -18,9 +18,7 @@ class App
 {
     public function __construct()
     {
-        echo "App start";
         static::main();
-        echo "загружен App";
     }
     public static function main(){
 
