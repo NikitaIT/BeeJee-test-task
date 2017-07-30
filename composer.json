@@ -1,0 +1,17 @@
+{
+    "name": "nikit/testtask",
+    "description": "beejee.testtask",
+    "type": "project",
+    "authors": [
+        {
+            "name": "NIKIT",
+            "email": "nikita2008-101@yandex.ru"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "testtask\\": ""
+        }
+    }
+}
