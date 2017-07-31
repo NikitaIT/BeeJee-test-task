@@ -30,10 +30,10 @@ class SiteController
      */
     public function actionIndex($ord = "", $page = 1)
     {
-        echo "ord = ";
-        print_r($ord);
-        echo  "; page = ";
-        print_r($page);
+//        echo "ord = ";
+//        print_r($ord);
+//        echo  "; page = ";
+//        print_r($page);
         if ($ord == ""){
             $ord = Task::getIdDBName();
         }
@@ -108,6 +108,32 @@ class SiteController
 
         // Подключаем вид
         require_once(ROOT . '/view/site/create.php');
+        return true;
+    }
+    /**
+     * Action для (ajax)
+     * @param integer $id <p>id </p>
+     */
+    public function actionIsDone($id)
+    {
+        $task = $this->taskService->findById($id);
+        $task->setIsDone(!$task->getIsDone());
+        echo $this->taskService->update($task);
+        return true;
+    }
+    /**
+     * Action для изменения текста(ajax)
+     * @param integer $id <p>id </p>
+     */
+    public function actionEditText($id)
+    {
+        if (isset($_POST["text"])){
+            $task = $this->taskService->findById($id);
+//            print_r($task);
+            $task->setText($_POST["text"]);
+            echo $this->taskService->update($task);
+        }
+        echo false;
         return true;
     }
 }

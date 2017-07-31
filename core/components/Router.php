@@ -47,21 +47,22 @@ class Router
         // Получаем строку запроса
         $uri = $this->getURI();
         $uri = preg_replace("~testtask/app~", "", $uri);
-        echo "__";
-        print_r($uri);
-        echo "__";
+//        echo "__";
+//        print_r($uri);
+//        echo "__";
         // Проверяем наличие такого запроса в массиве маршрутов (routes.php)
         foreach ($this->routes as $uriPattern => $path) {
             // Сравниваем $uriPattern и $uri
             if (preg_match("~$uriPattern~", $uri)) {
                 // Получаем внутренний путь из внешнего согласно правилу.
+                $uri = preg_replace("~//~", "/",$uri);
                 $internalRoute = preg_replace("~$uriPattern~", $path, $uri);
-                echo "<br>";
-                print_r($path);
-                echo "<br>";
-                echo "<br>";
-                print_r($internalRoute);
-                echo "<br>";
+//                echo "<br>";
+//                print_r($path);
+//                echo "<br>";
+//                echo "<br>";
+//                print_r($internalRoute);
+//                echo "<br>";
                 // Определить контроллер, action, параметры
                 $segments = explode('/', $internalRoute);
                 if ($uri != ""){

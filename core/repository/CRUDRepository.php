@@ -19,6 +19,7 @@ namespace testtask\core\repository;
 //}
 
 use testtask\core\components\DataMapper;
+use testtask\core\components\MyPDO;
 
 abstract class CRUDRepository extends DataMapper
 {
@@ -65,13 +66,14 @@ abstract class CRUDRepository extends DataMapper
     {
         $st = static::$db->prepare(
             'SELECT * FROM '. $this->table.
-            'WHERE id = :id '
+            ' WHERE id = :id '
         );
-        $st->bindParam(':id', $id, PDO::PARAM_INT);
+        $st->bindParam(':id', $id, MyPDO::PARAM_INT);
         // Указываем, что хотим получить данные в виде массива
-        $st->setFetchMode(PDO::FETCH_ASSOC);
+        $st->setFetchMode(MyPDO::FETCH_ASSOC);
         // Выполнение коменды
         $st->execute();
+//        print_r($st);
         // Получение и возврат результатов
         return $st->fetch();
     }

@@ -30,12 +30,12 @@ class TaskRepository extends CRUDRepository
     {
         // Смещение (для запроса)
         $offset = ($page - 1) * $limit;
-
+//        echo "_".$ord."_";
         // Используется подготовленный запрос
         $st = static::$db->prepare(
             'SELECT * FROM '. Task::getTaskDBName().
-            ' ORDER BY :ord ASC LIMIT :limit OFFSET :offset');
-        $st->bindParam(':ord', $ord, MyPDO::PARAM_STR);
+            ' ORDER BY '.$ord.' ASC LIMIT :limit OFFSET :offset');
+//        $st->bindParam(':ord', $ord, MyPDO::PARAM);
         $st->bindParam(':limit', $limit, MyPDO::PARAM_INT);
         $st->bindParam(':offset', $offset, MyPDO::PARAM_INT);
 
@@ -83,6 +83,7 @@ class TaskRepository extends CRUDRepository
             ', '.Task::getImageDBName().' = :'.Task::getImageDBName().
             ' WHERE '.Task::getIdDBName().' = :'.Task::getIdDBName()
         );
+        print_r($task);
         return $st->execute(array(
             ':'.Task::getIdDBName() => $task->getId(),
             ':'.Task::getUsernameDBName() => $task->getUsername(),
@@ -136,5 +137,19 @@ class TaskRepository extends CRUDRepository
         }
         // Иначе возвращаем 0
         return 0;
+    }
+    public function findById($id)
+    {
+        $taskArray = parent::findById($id);
+        $task = new Task(
+            $taskArray[Task::getIdDBName()],
+            $taskArray[Task::getUsernameDBName()],
+            $taskArray[Task::getEmailDBName()],
+            $taskArray[Task::getTextDBName()],
+            $taskArray[Task::getImageDBName()],
+            $taskArray[Task::getIsDoneDBName()]
+        );
+
+        return $task;
     }
 }
