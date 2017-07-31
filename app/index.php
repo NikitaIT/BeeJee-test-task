@@ -35,8 +35,8 @@
     error_reporting(E_ALL);
     session_start();
     // Подключение файлов системы
-    define('ROOT', dirname(__FILE__).'\\..\\core');
-    define('MY_SERVER', '\\testtask\\app');
+    define('ROOT', dirname(__FILE__).'/../core');
+    define('MY_SERVER', '/testtask/app');
     $bc = new testtask\core\App();
     ?>
 	<link rel="stylesheet" href="<?=MY_SERVER?>/css/main.min.css">

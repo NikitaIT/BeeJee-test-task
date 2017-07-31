@@ -24,13 +24,15 @@ use testtask\core\components\AdminBase;
             $text = "<p>{$task->getText()}</p>";
         }
         echo "
-            <div class='col-sm-6 col-md-4\'>
+            <div class='col-sm-4 col-md-2\'>
                 <div class='thumbnail'>
               <img src='{$task->getImagePath()}' alt='...'>
               <div class='caption'>
-                <h3>{$task->getUsername()}{$task->getEmail()}</h3>
-                <p>{$done}</p>
-                <p>{$text}<p>
+                <p>Статус: <mark>{$done}<mark></p>
+                <blockquote class='blockquote-reverse small'>
+                {$text}
+                <footer>{$task->getUsername()} : {$task->getEmail()}</footer>
+                <blockquote>
                 {$btns}
               </div>
             </div>
@@ -38,29 +40,32 @@ use testtask\core\components\AdminBase;
         ";
     }
  ?>
-
-
     <section>
         <div class="container">
-            <p>Стартовая страница - список задач с возможностью сортировки по имени пользователя, email и статусу. Вывод задач нужно сделать страницами по 3 штуки (с пагинацией). Видеть список задач и создавать новые может любой посетитель без регистрации.</p>
 
             <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-2">
+                    <div class="list-group">
+                        <br><br>
+                        <a href="<?=MY_SERVER?>/id/page-1" class="list-group-item">По дате добавления</a>
+                        <a href="<?=MY_SERVER?>/username/page-1" class="list-group-item">По имени пользователя</a>
+                        <a href="<?=MY_SERVER?>/email/page-1" class="list-group-item">По почте</a>
+                    </div>
                 </div>
 
-                <div class="col-sm-9 padding-right">
+                <div class="col-sm-10 padding-right">
                     <div class="features_items"><!--features_items-->
-                        <h2 class="title text-center">Последние товары</h2>
+                        <h2 class="title text-center">TODO List</h2>
                         <div class="row">
                         <?php foreach ($tasks as $task)
                         {
                             renderTask($task);
                         }?>
+                            <!-- Постраничная навигация -->
+                            <?php echo $pagination->get(); ?>
                         </div>
                     </div>
                 </div><!--features_items-->
-                <!-- Постраничная навигация -->
-                <?php echo $pagination->get(); ?>
     </section>
 
 <?php include ROOT . '/view/layouts/footer.php'; ?>

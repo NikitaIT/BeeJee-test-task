@@ -21,7 +21,7 @@ include ROOT . '/view/layouts/header.php';
             <div class="tab-content">
                 <div id="panel1" class="tab-pane fade in active">
 
-                    <h2>Добавить новый товар</h2>
+                    <h2>Добавить новый таск</h2>
                     <br/>
                     <?php if (isset($errors) && is_array($errors)): ?>
                         <ul>
@@ -36,7 +36,7 @@ include ROOT . '/view/layouts/header.php';
 
                                 <div class="form-group">
                                     <label for="pwd">Username:</label>
-                                    <input type="password" name="<?=Task::getUsernameDBName()?>" class="form-control" id="pwd">
+                                    <input type="text" name="<?=Task::getUsernameDBName()?>" class="form-control" id="pwd">
                                 </div>
                                 <div class="form-group">
                                     <label for="email">Email address:</label>
@@ -57,7 +57,18 @@ include ROOT . '/view/layouts/header.php';
                 </div>
                 <div id="panel2" class="tab-pane fade">
                     <h3>Предпросмотр</h3>
-                    <p>Содержимое 2 панели...</p>
+                    <div class=''>
+                        <div class='thumbnail'>
+                            <img id="imgInput-load" src='<?=MY_SERVER?>/../upload/images/task/no-image.jpg' alt='...'>
+                            <div class='caption'>
+                                <p>Статус: <mark>Not Done<mark></p>
+                                <blockquote class='blockquote-reverse small'>
+                                    <span id="comment-load">{$text}</span>
+                                    <footer><span id="pwd-load">{$task->getUsername()}</span> : <span id="email-load">{$task->getEmail()}</span></footer>
+                                    <blockquote>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             </div>

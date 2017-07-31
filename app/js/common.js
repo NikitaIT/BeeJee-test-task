@@ -15,7 +15,7 @@ $(function() {
             console.log("edit");
             let id = $(this).attr("data-id");
             let text = $(".text-"+id).val();
-
+            console.log(text);
             $.ajax({
                 type: 'POST',
                 url: `testtask/app/edittext/`+id,
@@ -33,12 +33,21 @@ $(function() {
             var reader = new FileReader();
 
             reader.onload = function (e) {
-                $('#image-load').attr('src', e.target.result);
+                $('#imgInput-load').attr('src', e.target.result);
             };
 
             reader.readAsDataURL(input.files[0]);
         }
     }
+    $("#pwd").change(function(){
+        $("#pwd-load").html($(this).val());
+    });
+    $("#email").change(function(){
+        $("#email-load").html($(this).val());
+    });
+    $("#comment").change(function(){
+        $("#comment-load").html($(this).val());
+    });
     $("#imgInput").change(function(){
         readURL(this);
     });

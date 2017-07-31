@@ -19,7 +19,7 @@ class TaskServiceImpl implements TaskService
     private $taskRepository;
 
     // Количество отображаемых товаров по умолчанию
-    const SHOW_BY_DEFAULT = 6;
+    const SHOW_BY_DEFAULT = 3;
 
     public function __construct()
     {
